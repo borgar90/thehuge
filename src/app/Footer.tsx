@@ -9,7 +9,7 @@ const Footer = () => {
       flexWrap: 'wrap',
       gap: '20px',
       padding: '20px',
-    }} className='flex flex-col justify-center items-center bg-blue-500 text-white min-h-[10vh]'>
+    }} className='flex flex-col w-screen items-center bg-blue-500 text-white min-h-[10vh]'>
       
       <h2 className='text-4xl mt-4'>Lets make Azeroth great again!</h2>
       <p>© 2025 The Huge</p>

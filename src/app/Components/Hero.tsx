@@ -28,27 +28,23 @@ const Hero = () => {
   return (
     
      
-      <div className="flex flex-col items-center gap-4 justify-center shadow-lg ">
-        <Miniprogress />
-        <div className="flex flex-row gap-0">
-          
-          <div className="z-2 absolute top-0 left-0 right-0 z-2 bg-gradient-to-b from-gray-800 to-transparent w-full h-full flex flex-row justify-center items-center " >
-            
-            <div className='flex flex-col justify-center items-center' >
-              
-            <h1 className="text-6xl sm:text-6xl font-bold text-center sm:text-left text-white">
-              The Huge
-            </h1>
-            <p className="text-center sm:text-left text-white text-3xl">
-              World of warcraft raiding guild
-            </p>
-            <div className="flex flex-row gap-0">
-              <ApplyToJoinButton />
-              <SignInButton />
-            </div>
+      <div className="flex  gap-4 w-screen shadow-lg">
+        <Miniprogress />   
+          <div className="w-screen p-4 bg-gradient-to-b from-gray-800 to-transparent ">
+            <div className='flex flex-col justify-center items-center py-10' >
+              <h1 className="text-6xl sm:text-6xl font-bold text-center sm:text-left text-white">
+                The Huge
+              </h1>
+              <p className="text-center sm:text-left text-white text-3xl">
+                World of warcraft raiding guild
+              </p>
+              <div className="flex flex-row gap-0">
+                <ApplyToJoinButton />
+                <SignInButton />
+              </div>
             </div>
           </div>
-        </div>
+       
       </div>
     
   );

@@ -46,7 +46,7 @@ export const ApplyToJoinButtonSmall = () => {
   }, []);
 
   const initiateBlizzardAuth = () => {
-    window.location.href = '/api/auth/auth';
+    window.location.href = '/api/blizzard/auth';
   };
 
   if (!isClient) {

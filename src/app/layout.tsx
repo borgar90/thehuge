@@ -30,11 +30,12 @@ export default function RootLayout({
   return (
     
     <html lang="en">
+      
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
       <NextUIContextProvider>
-        <div className=" min-h-screen   font-[family-name:var(--font-geist-sans)]">
+        <div className="flex flex-col justify-start items-center min-h-screen min-w-screen max-w-screen font-[family-name:var(--font-geist-sans)]">
 
           <header>  
             <Nav />
@@ -47,8 +48,9 @@ export default function RootLayout({
           <Footer />
           
         </div>
-      </NextUIContextProvider>
+        </NextUIContextProvider>
       </body>
+      
     </html>
     
   );

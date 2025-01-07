@@ -7,7 +7,7 @@ import {SignInButtonSmall} from '@/features/Auth/SigninButton';
 
 const Nav = () => {
   return (
-    <nav className='z-50 flex flex-row justify-between items-center p-3 bg-gray-800 text-white'>
+    <nav className='flex flex-row justify-between items-center w-screen p-3  px-10 bg-gray-800 text-white'>
       <ul className='flex flex-row gap-4 items-center'>
         <li className='mr-4'>
          <h1 className="text-2xl font-bold text-white">

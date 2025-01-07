@@ -1,19 +1,18 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 import fetch from 'node-fetch';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const accessToken = req.cookies.access_token;
+export async function GET(req: NextRequest) {
+  const accessToken = req.cookies.get('access_token')?.value;
 
   if (!accessToken) {
-    return res.status(401).json({ error: 'Unauthorized' });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const region = 'eu'; // or 'eu', 'kr', 'tw', etc.
+  const region = 'eu'; // or 'us', 'kr', 'tw', etc.
   const namespace = `profile-${region}`;
   const locale = 'en_US'; // Optional, can be changed based on your needs
 
   const profileUrl = `https://${region}.api.blizzard.com/profile/user/wow?namespace=${namespace}&locale=${locale}`;
-
 
   try {
     const response = await fetch(profileUrl, {
@@ -25,14 +24,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (!response.ok) {
       const errorData = await response.json();
       console.error('Error fetching profile data:', errorData); // Log the error response
-      return res.status(response.status).json(errorData);
+      return NextResponse.json(errorData, { status: response.status });
     }
 
     const profileData = await response.json();
-    return res.status(200).json(profileData);
+    return NextResponse.json(profileData, { status: 200 });
 
   } catch (error) {
     console.error('Error fetching profile data:', error);
-    return res.status(500).json({ error: 'Internal Server Error' });
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }

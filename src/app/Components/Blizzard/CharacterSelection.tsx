@@ -1,8 +1,8 @@
-"use client"
+
 
 import React, { useEffect, useState } from 'react';
 import { Character, ProfileData, wow_account } from '@/types';
-import {Select, SelectSection, SelectItem} from "@nextui-org/select";
+import {Select, SelectItem} from "@nextui-org/select";
 import {Textarea} from "@nextui-org/react";
 import {Switch} from "@nextui-org/react";
 
@@ -61,13 +61,7 @@ const CharacterSelection = () => {
   const [profileData, setProfileData] = useState<ProfileData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [isMain, setIsMainCharacter] = useState(true);
-
-
-  const handleCharacterSelection = (character: Character) => {
-    setShowWhyJoin(true);
-    console.log('Selected character:', character);
-  };
+  
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -111,13 +105,13 @@ const CharacterSelection = () => {
     <div className="character-selection p-4">
     {profileData && profileData.characters && (
       <div className="flex flex-wrap gap-4 justify-center">
-<SelectSection>
-<Select className="max-w-xs" label="Favorite Animal" placeholder="Select an animal" >
+
+      <Select className="max-w-[1000px]" label="Main Character" placeholder="Select your main character" >
         {profileData.characters.map((character) => (
           <SelectItem  key={character.id}>{character?.name} - lvl {character.level} {character.playable_class.name}</SelectItem>
         ))}
       </Select>
-      </SelectSection>
+   
       </div>
     )}
   </div>

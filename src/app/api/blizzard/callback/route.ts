@@ -1,16 +1,16 @@
-// /pages/api/blizzard/callback.ts
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 import fetch from 'node-fetch';
 import { URLSearchParams } from 'url';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { code } = req.query;
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const code = searchParams.get('code');
   const clientId = process.env.NEXT_PUBLIC_BNET_CLIENT_ID;
   const clientSecret = process.env.NEXT_PUBLIC_BNET_CLIENT_SECRET;
   const redirectUri = process.env.NEXT_PUBLIC_BNET_REDIRECT_URI;
 
   if (!code || !clientId || !clientSecret || !redirectUri) {
-    return res.status(400).json({ error: 'Missing parameters' });
+    return NextResponse.json({ error: 'Missing parameters' }, { status: 400 });
   }
 
   const tokenUrl = 'https://oauth.battle.net/oauth/token';
@@ -20,7 +20,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   params.append('client_id', clientId);
   params.append('client_secret', clientSecret);
   params.append('redirect_uri', redirectUri);
-  params.append('code', code as string);
+  params.append('code', code);
 
   try {
     const response = await fetch(tokenUrl, {
@@ -33,23 +33,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     if (!response.ok) {
       const errorData = await response.json();
-      return res.status(400).json(errorData);
+      return NextResponse.json(errorData, { status: 400 });
     }
 
     const data = await response.json() as { access_token: string; refresh_token: string };
     const accessToken = data.access_token;
-    // Optionally, store the refresh token if you need to refresh the token later
-    // const refreshToken = data.refresh_token;
 
-    // You can store the access token in cookies, database, or session
-    // For example, setting it in an HTTP-only cookie:
-    res.setHeader('Set-Cookie', `access_token=${accessToken}; HttpOnly; Path=/; Max-Age=3600`);
+    // Set the access token in an HTTP-only cookie
+    const responseHeaders = new Headers();
+    responseHeaders.append('Set-Cookie', `access_token=${accessToken}; HttpOnly; Path=/; Max-Age=3600`);
+
+    // Construct the absolute URL for redirection
+    const origin = req.nextUrl.origin;
+    const redirectUrl = `${origin}/character-selection`;
+
     // Redirect to the character selection page
-    res.writeHead(302, { Location: '/character-selection' });
-    res.end();
+    return NextResponse.redirect(redirectUrl, { headers: responseHeaders });
 
   } catch (error) {
     console.error('Error exchanging authorization code for token:', error);
-    return res.status(500).json({ error: 'Internal Server Error' });
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
