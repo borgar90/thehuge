@@ -1,6 +1,11 @@
+
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Nav from "./Navigation/Nav";
+import Footer from "./Footer";
+import NextUIContextProvider from './providers/NextUIContextProvider';
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,12 +28,28 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+      <NextUIContextProvider>
+        <div className=" min-h-screen   font-[family-name:var(--font-geist-sans)]">
+
+          <header>  
+            <Nav />
+          </header>
+
+          <main className="flex  items-center justify-center">
+            {children}
+          </main>
+
+          <Footer />
+          
+        </div>
+      </NextUIContextProvider>
       </body>
     </html>
+    
   );
 }
